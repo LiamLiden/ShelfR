@@ -1,5 +1,6 @@
 package com.example.leeseoye.shelfr;
 
+import android.app.Activity;
 import android.app.DownloadManager;
 import android.app.SearchManager;
 import android.content.Context;
@@ -17,7 +18,7 @@ import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class SearchableActivity extends AppCompatActivity {
+public class SearchableActivity extends Activity {
 
 
     ArrayList<Food> foodArrayList;
@@ -27,6 +28,7 @@ public class SearchableActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        /*
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search_menu, menu);
 
@@ -34,6 +36,7 @@ public class SearchableActivity extends AppCompatActivity {
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(false);
+        */
         return true;
     }
 
@@ -41,6 +44,8 @@ public class SearchableActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         handleIntent(getIntent());
+        //(R.layout.activity_main);
+        //setContentView(R.menu.search_menu);
     }
 
     @Override

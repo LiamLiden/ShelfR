@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ShelfR</string>
+    <string name="app_label">ShelfR</string>
+    <string name="search_hint">Enter Food Here</string>
 </resources>
