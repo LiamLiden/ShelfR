@@ -50,20 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        /*
-        AlarmManager alarm = (AlarmManager) this.getSystemService(this.ALARM_SERVICE);
-        Intent intent = new Intent(this, NotificationReceiver.class);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-        Log.d("setalarm", "here");
-        Calendar alarmTime = Calendar.getInstance();
-        //alarmTime.setTimeZone(TimeZone.getTimeZone("America/Chicago"));
-        //alarmTime.set(2018,10,19,2,12);
-        alarmTime.add(Calendar.MINUTE, 1);
-        Log.d("setalarm", alarmTime.toString() );
-        alarm.set(alarm.RTC_WAKEUP, alarmTime.getTimeInMillis(), alarmIntent);
 
-        Toast.makeText(this.getApplicationContext(), "absdfagthyjuyukikjhgf", Toast.LENGTH_LONG).show();
-*/
     }
 
 

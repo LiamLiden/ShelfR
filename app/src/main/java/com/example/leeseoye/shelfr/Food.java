@@ -1,7 +1,5 @@
 package com.example.leeseoye.shelfr;
 
-import java.util.Iterator;
-
 public class Food {
 
     public Food(String n, String fridge, String freeze, String shelf){
