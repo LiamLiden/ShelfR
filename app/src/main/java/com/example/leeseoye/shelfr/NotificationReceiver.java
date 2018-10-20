@@ -16,8 +16,7 @@ public class NotificationReceiver extends BroadcastReceiver {
     // Notification ID.
     private static final int NOTIFICATION_ID = 0;
     // Notification channel ID.
-    private static final String CHANNELL_ID =
-            "notification_channel";
+    private static final String CHANNELL_ID = "notification_channel";
 
 
     @Override
