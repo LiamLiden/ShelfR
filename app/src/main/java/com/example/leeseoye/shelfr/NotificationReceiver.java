@@ -32,7 +32,6 @@ public class NotificationReceiver extends BroadcastReceiver {
         notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
         // send notification
         sendNotification(context);
-
     }
 
     /**
@@ -51,8 +50,9 @@ public class NotificationReceiver extends BroadcastReceiver {
      * @param context, activity context.
      */
     private void sendNotification(Context context) {
-        // Intent contentIntent = new Intent(context, MainActivity.class);
-        Intent contentIntent = new Intent(ACTION_NOTIFICATION);
+
+         Intent contentIntent = new Intent(context, MainActivity.class);
+        //Intent contentIntent = new Intent(ACTION_NOTIFICATION);
         PendingIntent contentPendingIntent = PendingIntent.getActivity
                 (context, NOTIFICATION_ID, contentIntent, PendingIntent
                         .FLAG_UPDATE_CURRENT);
@@ -63,7 +63,7 @@ public class NotificationReceiver extends BroadcastReceiver {
                 .setSmallIcon(R.drawable.fridge)
                 .setContentTitle("title")
                 .setContentText("text")
-                //.setContentIntent(contentPendingIntent)
+                .setContentIntent(contentPendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true)
                 .setDefaults(NotificationCompat.DEFAULT_ALL);
@@ -71,7 +71,6 @@ public class NotificationReceiver extends BroadcastReceiver {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             builder.setChannelId(CHANNEL_ID);
         }
-
 
         // Notify the notification
         notificationManager.notify(NOTIFICATION_ID, builder.build());

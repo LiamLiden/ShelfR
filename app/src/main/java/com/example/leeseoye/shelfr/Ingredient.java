@@ -15,12 +15,14 @@ public class Ingredient {
     private Calendar deleted;
     private Calendar current;
     // Information about the ingredients
-    private Food food;
+    //private Food food;
     private int amount;
     private String place;
+    private String name;
 
 
-    public Ingredient (Food f, String storage, int expiration, int amount){
+
+    public Ingredient(String storage, int expiration, int amount, String name){
         // Set the dates for ingredients
         stored = Calendar.getInstance();
         expired = Calendar.getInstance();
@@ -28,10 +30,14 @@ public class Ingredient {
         deleted = Calendar.getInstance();
         current = stored;
 
-        food = f;
         place = storage;
         this.amount = amount;
     }
+
+    public String getName(){
+        return name;
+    }
+
 
     public void updateCurrent (){
         current = Calendar.getInstance();
@@ -45,6 +51,11 @@ public class Ingredient {
 
     public void reduceAmount (){
         amount--;
+    }
+
+    public String daysLeftString(){
+        int temp = daysLeft();
+        return new Integer(temp).toString();
     }
 
     public boolean usedFood (){
@@ -69,7 +80,7 @@ public class Ingredient {
 
         AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, NotificationReceiver.class);
-        intent.putExtra("foodName", food.getName());
+        intent.putExtra("foodName", getName());
         intent.putExtra("storage", place);
         intent.putExtra("left", amount);
         PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
