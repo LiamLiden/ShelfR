@@ -28,7 +28,7 @@ public class SearchableActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        /*
+
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search_menu, menu);
 
@@ -36,7 +36,7 @@ public class SearchableActivity extends Activity {
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(false);
-        */
+
         return true;
     }
 
@@ -44,8 +44,8 @@ public class SearchableActivity extends Activity {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         handleIntent(getIntent());
-        //(R.layout.activity_main);
-        //setContentView(R.menu.search_menu);
+
+        setContentView(R.layout.activity_searchable);
     }
 
     @Override
