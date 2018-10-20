@@ -19,6 +19,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- Alarm Receiver-->
+        <receiver
+            android:name=".NotificationReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.leeseoye.shelfr.ACTION_NOTIFICATION" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
