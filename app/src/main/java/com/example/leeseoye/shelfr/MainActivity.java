@@ -7,19 +7,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.TimeZone;
 
 import android.view.View;
-import android.widget.Button;
+import android.support.v7.widget.Toolbar;
 
 import java.util.ArrayList;
 
@@ -29,52 +33,82 @@ public class MainActivity extends AppCompatActivity {
     CustomAdapter adapter;
     ArrayList<Ingredient> ingredientList;
     SharedPreferences sharedPref;
-    Button search;
+    Toolbar myToolBar;
+
     private NotificationReceiver Receiver = new NotificationReceiver();
     private static final String ACTION_NOTIFICATION = "com.leeseoye.shelfr.ACTION_NOTIFICATION";
     private static final String CHANNEL_ID = "notification_channel";
 
-    //kefir, pudding, pasteurized crab meat, main dishes
-    // not included (package date issue might come up again)
-    //Commercial brand vacuum packed dinners with USDA seal 2 weeks Does not freeze well
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        search = findViewById(R.id.goSearch);
+        myToolBar = findViewById(R.id.my_toolbar);
+        myToolBar.setBackgroundColor(Color.BLUE);
+        setSupportActionBar(myToolBar);
+
+        //listView header design
+        TextView textHeader = new TextView(this);
+        textHeader.setText(R.string.app_name);
+        textHeader.setTextSize(24);
+        textHeader.setTypeface(null, Typeface.BOLD);
+
+        ingredientList = new ArrayList<Ingredient>();
+        ingredientList.add(new Ingredient("fridge", 10, 1, "Pie", this));
+        ingredientList.add(new Ingredient("fridge", 10, 1, "Test2", this));
+
+        listView = (ListView) findViewById(R.id.LV);
+        listView.addHeaderView(textHeader);
+        /*
+        myToolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener(){
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                myToolBar.setBackgroundColor(Color.RED);
+                switch (item.getItemId()) {
+                    case R.id.action_favorite:
+                        // User chose the "Settings" item, show the app settings UI...
+                        myToolBar.setTitle("Change");
+                        showAddDialog();
+                        return true;
+
+                    case R.id.action_search:
+                        Intent intent = new Intent(MainActivity.this, TestActivity.class);
+                        startActivity(intent);
+                        // User chose the "Favorite" action, mark the current item
+                        // as a favorite...
+                        return true;
+
+                    default:
+                        // If we got here, the user's action was not recognized.
+                        // Invoke the superclass to handle it.
+                        return false;
+                }
+            }
+        });
+        */
 
         registerReceiver(Receiver, new IntentFilter(ACTION_NOTIFICATION));
         createNotificationChannel(this);
 
-        //        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-////        String name = null;
-////        String fileName = sharedPref.getString("file", name);
-////        if (fileName != null) {
-////            try {
-////                Scanner scan = new Scanner(new File(fileName));
-////                while(scan.hasNext()){
-////                stringList.add(scan.nextLine());
-////                }
-////            }
-////            catch (IOException e){
-////                Toast.makeText(this, "ERROR: FILE COULD NOT BE READ", Toast.LENGTH_LONG);
-////            }
-////        }
-        search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent (view.getContext(), SearchableActivity.class);
-                startActivity(intent);
-            }
-        });
+//        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+//        String name = null;
+//        String fileName = sharedPref.getString("file", name);
+//        if (fileName != null) {
+//            try {
+//                Scanner scan = new Scanner(new File(fileName));
+//                while(scan.hasNext()){
+//                stringList.add(scan.nextLine());
+//                }
+//            }
+//            catch (IOException e){
+//                Toast.makeText(this, "ERROR: FILE COULD NOT BE READ", Toast.LENGTH_LONG);
+//            }
+//        }
 
-        ingredientList = new ArrayList<Ingredient>();
-        ingredientList.add(new Ingredient("fridge", 10, 1, "Pie"));
-        ingredientList.add(new Ingredient("fridge", 10, 1, "Test2"));
-        listView = findViewById(R.id.LV);
 
-        refresh();
+        //refresh();
+
 
     }
 
@@ -99,8 +133,13 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
     }
 
-    public void addNewItem(Ingredient item){
-        ingredientList.add(item);
+    public void onReceive(View view){
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        Ingredient i = new Ingredient(bundle.getString("storage"), bundle.getInt("expiration")
+                , bundle.getInt("quantity"), bundle.getString("food"), this);
+
+        ingredientList.add(i);
         refresh();
     }
 
