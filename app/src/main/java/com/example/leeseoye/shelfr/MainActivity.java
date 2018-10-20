@@ -18,20 +18,39 @@ import android.widget.Toast;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import android.view.View;
+import android.widget.Button;
+
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
+    Button search;
     private NotificationReceiver Receiver = new NotificationReceiver();
     private static final String ACTION_NOTIFICATION = "com.leeseoye.shelfr.ACTION_NOTIFICATION";
     private static final String CHANNEL_ID = "notification_channel";
 
+    //kefir, pudding, pasteurized crab meat, main dishes
+    // not included (package date issue might come up again)
+    //Commercial brand vacuum packed dinners with USDA seal 2 weeks Does not freeze well
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        search = findViewById(R.id.goSearch);
+
         registerReceiver(Receiver, new IntentFilter(ACTION_NOTIFICATION));
         createNotificationChannel(this);
 
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent (view.getContext(), SearchableActivity.class);
+                startActivity(intent);
+            }
+        });
+        /*
         AlarmManager alarm = (AlarmManager) this.getSystemService(this.ALARM_SERVICE);
         Intent intent = new Intent(this, NotificationReceiver.class);
         PendingIntent alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
@@ -44,7 +63,9 @@ public class MainActivity extends AppCompatActivity {
         alarm.set(alarm.RTC_WAKEUP, alarmTime.getTimeInMillis(), alarmIntent);
 
         Toast.makeText(this.getApplicationContext(), "absdfagthyjuyukikjhgf", Toast.LENGTH_LONG).show();
+*/
     }
+
 
         public static void createNotificationChannel(Context context) {
         // Create the NotificationChannel, but only on API 26+ because
