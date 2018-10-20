@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
         public static void createNotificationChannel(Context context) {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
