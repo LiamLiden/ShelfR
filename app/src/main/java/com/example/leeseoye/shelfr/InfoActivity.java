@@ -1,7 +1,11 @@
 package com.example.leeseoye.shelfr;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -17,6 +21,9 @@ public class InfoActivity extends AppCompatActivity {
     String name = "";
     double sA = 0, rA = 0, fA = 0;
 
+    Button shelf, fridge, freezer;
+    EditText quantity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,10 +32,49 @@ public class InfoActivity extends AppCompatActivity {
         TextView foodName = findViewById(R.id.name);
         foodName.setText(food.getName());
         setContentView(R.layout.activity_info);
+
+        food = new Food(getIntent().getStringExtra("name"), getIntent().getStringExtra("fridgeLife"), getIntent().getStringExtra("freezerLife"), getIntent().getStringExtra("shelfLife"));
+
+        shelf = findViewById(R.id.shelfButton);
+        fridge = findViewById(R.id.fridgeButton);
+        freezer = findViewById(R.id.freezerButton);
+
+        quantity = findViewById(R.id.quantityText);
+
+
+        shelf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent (view.getContext(), MainActivity.class);
+                intent.putExtra("expiration", food.toDays(food.getShelfLife()));
+                intent.putExtra("food", food.getName());
+                intent.putExtra("quantity", Character.getNumericValue(quantity.getText().toString().charAt(0)));
+                startActivity(intent);
+            }
+        });
+        fridge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent (view.getContext(), MainActivity.class);
+                intent.putExtra("expiration", food.toDays(food.getFridgeLife()));
+                intent.putExtra("food", food.getName());
+                intent.putExtra("quantity", Character.getNumericValue(quantity.getText().toString().charAt(0)));
+                startActivity(intent);
+            }
+        });
+        freezer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent (view.getContext(), MainActivity.class);
+                intent.putExtra("expiration", food.toDays(food.getFreezerLife()));
+                intent.putExtra("food", food.getName());
+                intent.putExtra("quantity", Character.getNumericValue(quantity.getText().toString().charAt(0)));
+                startActivity(intent);
+            }
+        });
     }
 
     public String findPurchase(){
-        food = new Food("Butter", "1-3 months", "6-9 months", "");
         try {
             BufferedReader f = new BufferedReader(new InputStreamReader(getAssets().open("history_log.txt")));
             Scanner s = new Scanner(f);
