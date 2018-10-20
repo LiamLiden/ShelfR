@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 public class Food {
 
-    public Food(String n, String fridge, String freeze, String shelf{
+    public Food(String n, String fridge, String freeze, String shelf){
         name = n;
         fridgeLife = fridge;
         freezerLife = freeze;
