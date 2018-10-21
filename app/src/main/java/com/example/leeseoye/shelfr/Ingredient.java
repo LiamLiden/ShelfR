@@ -6,10 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-public class Ingredient {
+public class Ingredient implements Serializable {
 
     // Dates need to be stored
     private Calendar stored;
@@ -23,14 +24,30 @@ public class Ingredient {
     private String name;
     private Context context;
     private int duration;
+    private long expireTime;
+
+    public Ingredient(String storage, int expiration, long expireTime, int amount, String name, Context context){
+        place = storage;
+        duration = expiration;
+        this.expireTime = expireTime;
+        this.amount = amount;
+        stored = Calendar.getInstance();
+        expired = Calendar.getInstance();
+        expired.add(Calendar.DATE, (int) ((expireTime - Calendar.getInstance().getTimeInMillis())/86400000));
+        this.name = name;
+        this.context = context;
+        setAlarm(context);
+    }
 
 
     public Ingredient(String storage, int expiration, int amount, String name, Context context){
         // Set the dates for ingredients
         duration = expiration;
         stored = Calendar.getInstance();
+
         expired = Calendar.getInstance();
         expired.add(Calendar.DATE, expiration);
+        expireTime = stored.getTimeInMillis();
         deleted = Calendar.getInstance();
         current = stored;
         this.context = context;
@@ -40,6 +57,18 @@ public class Ingredient {
         this.name = name;
         place = storage;
         this.amount = amount;
+    }
+
+    public int getDuration(){
+        return duration;
+    }
+
+    public Calendar getExpiredCal(){
+        return expired;
+    }
+    public int DaysLeftfromMilli(){
+        return (int) ((expireTime - Calendar.getInstance().getTimeInMillis())/86400000);
+
     }
 
     public String getName(){
@@ -54,6 +83,8 @@ public class Ingredient {
     public void updateCurrent (){
         current = Calendar.getInstance();
     }
+
+
 
     public int daysLeft (){
         updateCurrent();
@@ -70,6 +101,7 @@ public class Ingredient {
      * @produce the difference in days of c2 and c1 (c2 - c1)
      * */
     private static int dayDiff (Calendar c1, Calendar c2){
+
         return (int)((c2.getTimeInMillis()-c1.getTimeInMillis())/86400000);
     }
 

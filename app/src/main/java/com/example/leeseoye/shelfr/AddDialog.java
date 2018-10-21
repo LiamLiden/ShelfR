@@ -48,7 +48,7 @@ public class AddDialog extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         //Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
-        builder.setView(R.layout.dialog_add)
+        builder.setView(R.layout.dialog_add).setTitle("Edit Inventory")
                 // Add action buttons
                 .setPositiveButton("Remove One", new DialogInterface.OnClickListener() {
                     @Override
