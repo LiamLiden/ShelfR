@@ -87,12 +87,12 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
 
                     case R.id.action_search:
                        // Intent intent = new Intent (MainActivity.this, SearchableActivity.class);
-                        Intent intent = new Intent (MainActivity.this, InfoActivity.class);
-                       intent.putExtra("name","Butter");
+                        Intent intent = new Intent (MainActivity.this, SearchableActivity.class);
+                       /*intent.putExtra("name","Butter");
                        intent.putExtra("fridgeLife", "1-3 days");
                        intent.putExtra("freezerLife", "5 days");
-                       intent.putExtra("shelfLife", "9 days");
-                        startActivity(intent);
+                       intent.putExtra("shelfLife", "9 days");*/
+                        startActivityForResult(intent,10);
                         return true;
 
                     default:
@@ -191,11 +191,10 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
     }
 
 
-    protected void onActivityResult (int requestCode, int resultCode, Intent intent){
+    protected void onActivityResult (int requestCode, int resultCode, Intent intent) {
 
-
-        Log.d("main","onactivityresult");
-        if (resultCode==RESULT_OK) {
+        if (resultCode == RESULT_OK) {
+            Log.d("main", "onactivityresult");
             if (requestCode == 10) {
                 Bundle bundle = intent.getExtras();
 
@@ -204,7 +203,8 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
                 adapter = new CustomAdapter(this, R.layout.activity_listview, ingredientList);
                 listView.setAdapter(adapter);
             }
+            super.onActivityResult(requestCode, resultCode, intent);
+
         }
-        super.onActivityResult(requestCode,resultCode,intent);
     }
 }

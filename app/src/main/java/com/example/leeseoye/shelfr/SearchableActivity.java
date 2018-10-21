@@ -7,26 +7,40 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.Buffer;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
-public class SearchableActivity extends Activity {
+public class SearchableActivity extends Activity implements SearchView.OnQueryTextListener{
 
+    public static final String NAME_KEY = "name";
+    public static final String FREEZER_KEY = "freezerLife";
+    public static final String FRIDGE_KEY = "fridgeLife";
+    public static final String SHELF_KEY = "shelfLife";
 
-    ArrayList<Food> foodArrayList;
+    private ListView list;
+    private ListViewAdapter adapter;
+    private SearchView editSearch;
+    public static ArrayList<Food> foodArrayList = new ArrayList<Food>();
 
     boolean shelfID = false;
     boolean frozenID = false;
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater inflater = getMenuInflater();
@@ -38,16 +52,90 @@ public class SearchableActivity extends Activity {
         searchView.setIconifiedByDefault(false);
 
         return true;
+    }*/
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //handleIntent(getIntent());
+        setContentView(R.layout.activity_searchable);
+
+        try {
+            BufferedReader f = new BufferedReader(new InputStreamReader(getAssets().open("food_db.txt")));
+            Scanner s = new Scanner(f);
+            String line;
+            SearchableActivity searchAc = new SearchableActivity();
+            while (s.hasNextLine()) {
+                line = s.nextLine();
+                foodArrayList.add(searchAc.readFood(line));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        list = (ListView) findViewById(R.id.searchList);
+
+        adapter = new ListViewAdapter(this);
+        list.setAdapter(adapter);
+
+        editSearch = (SearchView) findViewById(R.id.searchbox);
+        editSearch.setOnQueryTextListener(this);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(SearchableActivity.this, foodArrayList.get(position).getName(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(view.getContext(), InfoActivity.class);
+
+                Food currentFood = foodArrayList.get(position);
+                String name = currentFood.getName();
+                String freezerLife = currentFood.getFreezerLife();
+                //System.out.println("FreezerLife: "+freezerLife1);
+                String fridgeLife = currentFood.getFridgeLife();
+                String shelfLife = currentFood.getShelfLife();
+
+                intent.putExtra(NAME_KEY, name);
+                intent.putExtra(FREEZER_KEY, freezerLife);
+                intent.putExtra(FRIDGE_KEY, fridgeLife);
+                intent.putExtra(SHELF_KEY, shelfLife);
+                startActivityForResult(intent, 10);
+            }
+        });
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        handleIntent(getIntent());
-
-        setContentView(R.layout.activity_searchable);
+    public boolean onQueryTextSubmit(String query){
+        return false;
     }
 
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        String text = newText;
+        adapter.filter(text);
+        return false;
+    }
+
+    /*
+        adapter = new FoodListAdapter(this, R.layout.food_search_option, foodArrayList);
+        list.setAdapter(adapter);
+
+        editSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String text) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                adapter.getFilter().filter(newText);
+
+                return false;
+            }
+        });
+    }*/
+
+/*
     @Override
     protected void onNewIntent(Intent intent) {
         setIntent(intent);
@@ -77,21 +165,28 @@ public class SearchableActivity extends Activity {
             }
 
     }
-
-    public Food readFood(String line){
+*/
+    private Food readFood(String line){
+        System.out.println(line);
         String temp;
         Scanner s = new Scanner(line);
         String name = "";
         String shelf = "";
         String fridge = "";
         String freezer = "";
-        if(line.equals("ID:SHELF"))
+        if(line.equals("ID:SHELF")) {
             shelfID = !shelfID;
-        if(line.equals("ID:PURCHASE_FROZEN"))
+            Food f = new Food("","","","");
+            return f;
+        }
+        if(line.equals("ID:PURCHASE_FROZEN")) {
             frozenID = !frozenID;
+            Food f = new Food("","","","");
+            return f;
+        }
 
         if(shelfID){
-            /* Weird idea to parse the data
+				/* Weird idea to parse the data
             for (char c : arr){
                 if (Character.isDigit(c)) {
                     shelf.concat(Character.toString(c));
@@ -100,7 +195,7 @@ public class SearchableActivity extends Activity {
                 else
                     name.concat(Character.toString(c));
             }
-            */
+				 */
             while (s.hasNext()) {
                 temp = s.next();
                 if (Character.isDigit(temp.charAt(0))) {
@@ -108,47 +203,70 @@ public class SearchableActivity extends Activity {
                         shelf = "Do not shelf";
                     }
                     else {
-                        shelf = temp.concat(s.next());
+                        shelf = temp + " " + s.next();
                     }
-                    fridge = s.next().concat(s.next());
-                    freezer = s.next().concat(s.next());
+                    fridge = s.next() + " " + s.next();
+                    freezer = s.next() + " " + s.next();
                     if (s.hasNext()) {
-                        freezer.concat(s.next());
+                        freezer = freezer + " " + s.next();
                     }
+                } else {
+                    if (name.equals(""))
+                        name = name + temp;
+                    else
+                        name = name + " " + temp;
+
                 }
-                else
-                    name.concat(temp);
             }
-            Food f = new Food(name, shelf, fridge, freezer);
+            Food f = new Food(name, fridge, freezer, shelf);
             return f;
         }
         else if(frozenID){
             while (s.hasNext()) {
                 temp = s.next();
                 if (Character.isDigit(temp.charAt(0))) {
-                    freezer = temp.concat(s.next());
-                    fridge = s.next().concat(s.next());
+                    freezer = temp + " " + s.next();
+                    fridge = s.next() + " " + s.next();
                     if (s.hasNext())
-                        fridge.concat(s.next());
-                } else
-                    name.concat(temp);
+                        fridge = fridge + " " + s.next();
+                } else {
+                    if (name.equals(""))
+                        name = name + temp;
+                    else
+                        name = name + " " + temp;
+
+                }
             }
-            Food f = new Food(name, shelf, fridge, freezer);
+            Food f = new Food(name, fridge, freezer, shelf);
             return f;
         }
         else {
             while (s.hasNext()) {
                 temp = s.next();
                 if (Character.isDigit(temp.charAt(0))) {
-                    fridge = temp.concat(s.next());
-                    freezer = s.next().concat(s.next());
+                    fridge = temp + " " + s.next();
+                    freezer = s.next() + " " + s.next();
                     if (s.hasNext())
-                        freezer.concat(s.next());
-                } else
-                    name.concat(temp);
+                        freezer = freezer + " " + s.next();
+                } else {
+                    if (name.equals(""))
+                        name = name + temp;
+                    else
+                        name = name + " " + temp;
+
+                }
             }
-            Food f = new Food(name, shelf, fridge, freezer);
+            Food f = new Food(name, fridge, freezer, shelf);
             return f;
         }
     }
+
+    protected void onActivityResult (int requestCode, int resultCode, Intent intent) {
+        Log.d("onAR", "Reached SearchActive");
+        super.onActivityResult(requestCode,resultCode,intent);
+        setResult(resultCode,intent);
+        Log.d("onAR", "Reached here");
+        finish();
+    }
+
 }
