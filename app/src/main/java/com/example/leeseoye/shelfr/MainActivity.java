@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView;
@@ -116,6 +117,18 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
                 myToolBar.setTitle(currentEvent.getName());
             }
         });
+        Button shortcut = findViewById(R.id.button);
+        shortcut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent (view.getContext(), InfoActivity.class);
+                intent.putExtra("name", "Butter");
+                intent.putExtra("fridgeLife", "1-3 days");
+                intent.putExtra("freezerLife", "5 days");
+                intent.putExtra("shelfLife", "9 days");
+                startActivityForResult(intent, 10);
+            }
+        });
 
         refresh();
 
@@ -179,29 +192,18 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
     }
 
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent){
-        if (requestCode == 2){
-            Log.d("onactivity", "if");
+    protected void onActivityResult (int requestCode, int resultCode, Intent intent){
+
+
+        Log.d("main","onactivityresult");
+        if (requestCode==10){
             Bundle bundle = intent.getExtras();
 
-            ingredientList.add( new Ingredient(bundle.getString("storage"), bundle.getInt("expiration")
+            ingredientList.add(new Ingredient(bundle.getString("storage"), bundle.getInt("expiration")
                     , bundle.getInt("quantity"), bundle.getString("food"), this));
             adapter = new CustomAdapter(this, R.layout.activity_listview, ingredientList);
             listView.setAdapter(adapter);
         }
         super.onActivityResult(requestCode,resultCode,intent);
     }
-
-    public void onReceive(View view){
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        Ingredient i = new Ingredient(bundle.getString("storage"), bundle.getInt("expiration")
-                , bundle.getInt("quantity"), bundle.getString("food"), this);
-
-        ingredientList.add(i);
-        refresh();
-    }
-
-
-
 }

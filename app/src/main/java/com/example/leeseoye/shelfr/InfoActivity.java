@@ -3,6 +3,7 @@ package com.example.leeseoye.shelfr;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,18 +33,16 @@ public class InfoActivity extends AppCompatActivity {
                 getIntent().getStringExtra("fridgeLife"),
                 getIntent().getStringExtra("freezerLife"),
                 getIntent().getStringExtra("shelfLife"));
+
         TextView optimizer = findViewById(R.id.optimums);
         //optimizer.setText(findPurchase());
         TextView foodName = findViewById(R.id.name);
         foodName.setText(food.getName());
 
 
-
-
         shelf = findViewById(R.id.shelfButton);
         fridge = findViewById(R.id.fridgeButton);
         freezer = findViewById(R.id.freezerButton);
-
         quantity = findViewById(R.id.quantityText);
 
 
@@ -54,7 +53,9 @@ public class InfoActivity extends AppCompatActivity {
                 intent.putExtra("expiration", food.toDays(food.getShelfLife()));
                 intent.putExtra("food", food.getName());
                 intent.putExtra("quantity", Character.getNumericValue(quantity.getText().toString().charAt(0)));
-                intent.putExtra("storage", "shelf");
+
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                Log.d("info","please send the intent to main");
                 setResult(RESULT_OK,intent);
 
                 finish();
@@ -68,7 +69,9 @@ public class InfoActivity extends AppCompatActivity {
                 intent.putExtra("food", food.getName());
                 intent.putExtra("quantity", Character.getNumericValue(quantity.getText().toString().charAt(0)));
                 intent.putExtra("storage", "fridge");
-                startActivity(intent);
+                setResult(RESULT_OK,intent);
+                finish();
+
             }
         });
         freezer.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +82,8 @@ public class InfoActivity extends AppCompatActivity {
                 intent.putExtra("food", food.getName());
                 intent.putExtra("quantity", Character.getNumericValue(quantity.getText().toString().charAt(0)));
                 intent.putExtra("storage", "freezer");
-                startActivity(intent);
+                setResult(RESULT_OK,intent);
+                finish();
             }
         });
     }
