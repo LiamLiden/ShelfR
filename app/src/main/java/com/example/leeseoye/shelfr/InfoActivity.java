@@ -35,7 +35,7 @@ public class InfoActivity extends AppCompatActivity {
                 getIntent().getStringExtra("shelfLife"));
 
         TextView optimizer = findViewById(R.id.optimums);
-        //optimizer.setText(findPurchase());
+        optimizer.setText(findPurchase());
         TextView foodName = findViewById(R.id.name);
         foodName.setText(food.getName());
 
@@ -86,7 +86,7 @@ public class InfoActivity extends AppCompatActivity {
             }
         });
     }
-    /*
+
 
     public String findPurchase(){
         try {
@@ -124,5 +124,5 @@ public class InfoActivity extends AppCompatActivity {
         }
         return "Shelfed: " + food.toDays(food.getShelfLife())/sA + "Refrigerated: " + food.toDays(food.getFridgeLife())/rA + "Frozen: " + food.toDays(food.getFreezerLife());
     }
-    */
+
 }
