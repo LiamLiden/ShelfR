@@ -1,7 +1,5 @@
 package com.example.leeseoye.shelfr;
 
-import java.util.Iterator;
-
 public class Food {
 
     public Food(String n, String fridge, String freeze, String shelf){
@@ -12,16 +10,16 @@ public class Food {
     }
 
     public String getName(){
-        return name;
+        return this.name;
     }
     public String getFreezerLife() {
-        return freezerLife;
+        return this.freezerLife;
     }
     public String getFridgeLife() {
-        return fridgeLife;
+        return this.fridgeLife;
     }
     public String getShelfLife() {
-        return shelfLife;
+        return this.shelfLife;
     }
 
     public Integer toDays(String life){
@@ -44,6 +42,12 @@ public class Food {
         return amount;
     }
 
+    @Override
+    public String toString(){
+        String str = getName()+", Freezer: "+getFreezerLife()+", Fridge: "+getFridgeLife()+
+                ", Shelf:"+getShelfLife();
+        return str;
+    }
 
     //private field declarations
     private String name;
