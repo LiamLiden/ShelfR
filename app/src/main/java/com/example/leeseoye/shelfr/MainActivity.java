@@ -36,6 +36,7 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.TimeZone;
 
 
 public class MainActivity extends AppCompatActivity implements AddDialog.NoticeDialogListener{
@@ -59,6 +60,10 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
         setContentView(R.layout.activity_main);
         Log.d("main", "after super");
 
+        // Set timezone to phone setting for calendar and alarm set up
+        TimeZone tz = TimeZone.getDefault();
+        Log.d("start with","TimeZone   "+tz.getDisplayName(false, TimeZone.SHORT)+" Timezone id :: " +tz.getID());
+
         myToolBar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolBar);
 
@@ -81,7 +86,6 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
                         // User chose the "Settings" item, show the app settings UI...
                         myToolBar.setTitle("Change");
                         showAddDialog();
-
                         return true;
 
                     case R.id.action_search:
@@ -137,7 +141,6 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
 
     @Override
     public void onDialogPositiveClick() {
-
         ingredientList.get(index).reduceAmount();
         refresh();
     }
@@ -154,8 +157,7 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
     }
 
     public static void createNotificationChannel(Context context) {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
+        // Create the NotificationChannel, but only on API 26+ due to supporting library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Log.d("NotificationChannel","Adding notification channel");
             CharSequence name = "name";

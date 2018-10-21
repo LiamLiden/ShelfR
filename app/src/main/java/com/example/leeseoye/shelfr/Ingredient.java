@@ -84,26 +84,31 @@ public class Ingredient {
         //TODO: write the deleted and amount information to database file
     }
 
-    public void setAlarm(Context context){
-        // Set alarm time at noon (12PM) of the day before expiration date
-        Calendar alarmTime = Calendar.getInstance();
-        alarmTime.setTime(expired.getTime());
-        alarmTime.add(Calendar.DATE, -1);
-        alarmTime.set(Calendar.AM_PM, Calendar.PM);
-        alarmTime.set(Calendar.HOUR, 12);
-        alarmTime.set(Calendar.MINUTE, 0);
+    public void setAlarm(Context context) {
+        if (this.daysLeft() > 0) {
+            // Set alarm time at noon (12PM) of the day before expiration date
+            /*Calendar alarmTime = Calendar.getInstance();
+            alarmTime.setTime(expired.getTime());
+            alarmTime.add(Calendar.DATE, -1);
+            alarmTime.set(Calendar.AM_PM, Calendar.PM);
+            alarmTime.set(Calendar.HOUR, 12);
+            alarmTime.set(Calendar.MINUTE, 0);*/
 
-        AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, NotificationReceiver.class);
-        intent.putExtra("foodName", getName());
-        intent.putExtra("storage", place);
-        intent.putExtra("left", amount);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-        Log.d("ingredient", "set alarm  " );
-        alarm.set(alarm.RTC_WAKEUP, alarmTime.getTimeInMillis(), alarmIntent);
-        Log.d("ingredient", "at" +alarmTime );
+            AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(context, NotificationReceiver.class);
+            intent.putExtra("foodName", getName());
+            intent.putExtra("storage", place);
+            intent.putExtra("left", amount);
+            intent.setAction("showmessage");
+            Calendar alarmTime = Calendar.getInstance();
+            alarmTime.add(Calendar.MINUTE, 1);
+            PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+            Log.d("Ingredient","time"+alarmTime.getTime());
+            alarm.set(alarm.RTC_WAKEUP, alarmTime.getTimeInMillis(), alarmIntent);
+            Log.d("ingredient", "at" + alarmTime.getTime());
 
+        }else
+            Log.d ("ingredient: set alarm", "Expiration date is today or before");
     }
-
 
 }
