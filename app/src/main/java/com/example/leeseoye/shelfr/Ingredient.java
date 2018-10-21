@@ -44,6 +44,10 @@ public class Ingredient {
         return name;
     }
 
+    public int getAmount() { return amount; }
+
+    public String getPlace() { return place; }
+
 
     public void updateCurrent (){
         current = Calendar.getInstance();
