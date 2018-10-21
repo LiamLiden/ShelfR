@@ -81,15 +81,13 @@ public class InfoActivity extends AppCompatActivity {
                 intent.putExtra("food", food.getName());
                 intent.putExtra("quantity", Character.getNumericValue(quantity.getText().toString().charAt(0)));
                 intent.putExtra("storage", "F");
-
                 setResult(RESULT_OK, intent);
-
                 finish();
             }
         });
     }
-    /*
 
+/*
     public String findPurchase(){
         try {
             BufferedReader f = new BufferedReader(new InputStreamReader(getAssets().open("history_log.txt")));
@@ -127,4 +125,5 @@ public class InfoActivity extends AppCompatActivity {
         return "Shelfed: " + food.toDays(food.getShelfLife())/sA + "Refrigerated: " + food.toDays(food.getFridgeLife())/rA + "Frozen: " + food.toDays(food.getFreezerLife());
     }
     */
+
 }

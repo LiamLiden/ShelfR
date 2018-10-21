@@ -66,8 +66,8 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
         createNotificationChannel(this);
 
         ingredientList = new ArrayList<Ingredient>();
-        ingredientList.add(new Ingredient("fridge", 10, 1, "Pie", this));
-        ingredientList.add(new Ingredient("fridge", 10, 1, "Test2", this));
+        //ingredientList.add(new Ingredient("fridge", 10, 1, "Pie", this));
+        //ingredientList.add(new Ingredient("fridge", 10, 1, "Test2", this));
         //Testing for notification
         //ingredientList.add(new)
 
@@ -144,7 +144,20 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
 
     @Override
     public void onDialogNeutralClick(){
-        ingredientList.remove(index);
+        Ingredient temp = ingredientList.remove(index);
+        try {
+            BufferedWriter s = new BufferedWriter(new FileWriter("history_log.txt"));
+            s.write(temp.getName() + " ");
+            s.write(temp.getAmount() + " ");
+            s.write(temp.getPlace() + " ");
+            s.write(temp.daysPassed() + "\n");
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
         refresh();
     }
 

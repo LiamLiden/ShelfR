@@ -22,10 +22,12 @@ public class Ingredient {
     private String place;
     private String name;
     private Context context;
+    private int duration;
 
 
     public Ingredient(String storage, int expiration, int amount, String name, Context context){
         // Set the dates for ingredients
+        duration = expiration;
         stored = Calendar.getInstance();
         expired = Calendar.getInstance();
         expired.add(Calendar.DATE, expiration);
@@ -44,6 +46,10 @@ public class Ingredient {
         return name;
     }
 
+    public int getAmount() { return amount; }
+
+    public String getPlace() { return place; }
+
 
     public void updateCurrent (){
         current = Calendar.getInstance();
@@ -52,7 +58,11 @@ public class Ingredient {
     public int daysLeft (){
         updateCurrent();
         // Calculate the remain date from Milliseconds
-        return dayDiff(current, expired);
+        return dayDiff(current, expired)+1;
+    }
+
+    public int daysPassed(){
+        return duration - (daysLeft() +1);
     }
 
     /**
