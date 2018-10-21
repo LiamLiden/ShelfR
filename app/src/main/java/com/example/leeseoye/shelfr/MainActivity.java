@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -162,12 +163,20 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
         //  AddDialog.editText = null;
         //   addNewItem(s);
         ingredientList.get(index).reduceAmount();
+        if(ingredientList.get(index).getAmount() <= 0) {
+            onDialogNeutralClick();
+            Toast.makeText(this, "Deleted " + ingredientList.get(index).getName(), Toast.LENGTH_SHORT).show();
+        }
         refresh();
     }
 
     @Override
     public void onDialogNeutralClick(){
+        Toast.makeText(this, "Deleted " + ingredientList.get(index).getName(), Toast.LENGTH_SHORT).show();
         Ingredient temp = ingredientList.remove(index);
+
+
+
         try {
             BufferedWriter s = new BufferedWriter(new FileWriter("history_log.txt"));
             s.write(temp.getName() + " ");
