@@ -76,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
         myToolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener(){
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                //myToolBar.setBackgroundColor(Color.RED);
                 switch (item.getItemId()) {
                     case R.id.action_favorite:
                         // User chose the "Settings" item, show the app settings UI...
@@ -86,12 +85,7 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
                         return true;
 
                     case R.id.action_search:
-                       // Intent intent = new Intent (MainActivity.this, SearchableActivity.class);
                         Intent intent = new Intent (MainActivity.this, SearchableActivity.class);
-                       /*intent.putExtra("name","Butter");
-                       intent.putExtra("fridgeLife", "1-3 days");
-                       intent.putExtra("freezerLife", "5 days");
-                       intent.putExtra("shelfLife", "9 days");*/
                         startActivityForResult(intent,10);
                         return true;
 
@@ -108,29 +102,13 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Ingredient currentEvent = ingredientList.get(i);
                 if(i ==0){
-                    //myToolBar.setBackgroundColor(Color.YELLOW);
                 }
                 else if(i == 1){
-                    //myToolBar.setBackgroundColor(Color.GREEN);
                 }
                 myToolBar.setTitle(currentEvent.getName());
             }
         });
 
-        /* Button used for testing
-        Button shortcut = findViewById(R.id.button);
-        shortcut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent (view.getContext(), InfoActivity.class);
-                intent.putExtra("name", "Butter");
-                intent.putExtra("fridgeLife", "1-3 days");
-                intent.putExtra("freezerLife", "5 days");
-                intent.putExtra("shelfLife", "9 days");
-                startActivityForResult(intent, 10);
-            }
-        });
-        */
 
         refresh();
 
@@ -159,10 +137,7 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
 
     @Override
     public void onDialogPositiveClick() {
-        //String a = ((EditText) s.getDialog().getOwnerActivity().findViewById(R.id.text_box)).getText().toString();
-        // addNewItem(AddDialog.editText.getText().toString());
-        //  AddDialog.editText = null;
-        //   addNewItem(s);
+
         ingredientList.get(index).reduceAmount();
         refresh();
     }
