@@ -116,6 +116,8 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
                 myToolBar.setTitle(currentEvent.getName());
             }
         });
+
+        /* Button used for testing
         Button shortcut = findViewById(R.id.button);
         shortcut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
                 startActivityForResult(intent, 10);
             }
         });
+        */
 
         refresh();
 
