@@ -33,12 +33,29 @@ public class CustomAdapter extends ArrayAdapter<Ingredient>
 
         Ingredient currentIngredient = ingredientList.get(position);
 
+        /*
+        TextView loc = (TextView)listItem.findViewById(R.id.location);
+
+        loc.setText(storeLocation);
+*/
+        String storeLocation = currentIngredient.getPlace();
+        ImageView image = (ImageView) listItem.findViewById(R.id.image);
+
+        if(storeLocation.contains("R"))
+            image.setImageResource(R.drawable.best_fridge_icon);
+
+        if(storeLocation.contains("F"))
+            image.setImageResource(R.drawable.ic_freezer_black_24dp);
+
+        if(storeLocation.contains("S"))
+            image.setImageResource(R.drawable.ic_shelf_black_24dp);
+
         TextView name = (TextView) listItem.findViewById(R.id.label);
         name.setText(currentIngredient.getName());
 
         TextView release = (TextView) listItem.findViewById(R.id.expiration);
         Log.d("ThisRandomThing", String.valueOf(currentIngredient.getAmount()));
-        release.setText( currentIngredient.daysLeftString() + " days left\n"
+        release.setText( currentIngredient.daysLeftString() + " Days Left\n"
                         + "Quantity: " +currentIngredient.getAmount());
 
         return listItem;
