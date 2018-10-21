@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
         Log.d("main", "after super");
 
         myToolBar = findViewById(R.id.my_toolbar);
-        myToolBar.setBackgroundColor(Color.BLUE);
         setSupportActionBar(myToolBar);
 
         registerReceiver(Receiver, new IntentFilter(ACTION_NOTIFICATION));
