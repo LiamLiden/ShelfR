@@ -66,8 +66,8 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
         createNotificationChannel(this);
 
         ingredientList = new ArrayList<Ingredient>();
-        ingredientList.add(new Ingredient("fridge", 10, 1, "Pie", this));
-        ingredientList.add(new Ingredient("fridge", 10, 1, "Test2", this));
+        //ingredientList.add(new Ingredient("fridge", 10, 1, "Pie", this));
+        //ingredientList.add(new Ingredient("fridge", 10, 1, "Test2", this));
         //Testing for notification
         //ingredientList.add(new)
 
