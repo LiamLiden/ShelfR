@@ -196,13 +196,15 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
 
 
         Log.d("main","onactivityresult");
-        if (requestCode==10){
-            Bundle bundle = intent.getExtras();
+        if (resultCode==RESULT_OK) {
+            if (requestCode == 10) {
+                Bundle bundle = intent.getExtras();
 
-            ingredientList.add(new Ingredient(bundle.getString("storage"), bundle.getInt("expiration")
-                    , bundle.getInt("quantity"), bundle.getString("food"), this));
-            adapter = new CustomAdapter(this, R.layout.activity_listview, ingredientList);
-            listView.setAdapter(adapter);
+                ingredientList.add(new Ingredient(bundle.getString("storage"), bundle.getInt("expiration")
+                        , bundle.getInt("quantity"), bundle.getString("food"), this));
+                adapter = new CustomAdapter(this, R.layout.activity_listview, ingredientList);
+                listView.setAdapter(adapter);
+            }
         }
         super.onActivityResult(requestCode,resultCode,intent);
     }

@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,7 +26,8 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity android:name=".SearchableActivity"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -44,7 +46,8 @@
             </intent-filter>
         </receiver>
         <activity android:name=".InfoActivity"
-            android:parentActivityName=".SearchableActivity"></activity>
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"></activity>
 
     </application>
 
