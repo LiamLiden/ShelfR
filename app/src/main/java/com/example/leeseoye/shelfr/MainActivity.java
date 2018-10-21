@@ -88,11 +88,11 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
 
                     case R.id.action_search:
                        // Intent intent = new Intent (MainActivity.this, SearchableActivity.class);
-                        Intent intent = new Intent (MainActivity.this, InfoActivity.class);
-                       intent.putExtra("name","Butter");
+                        Intent intent = new Intent (MainActivity.this, SearchableActivity.class);
+                       /*intent.putExtra("name","Butter");
                        intent.putExtra("fridgeLife", "1-3 days");
                        intent.putExtra("freezerLife", "5 days");
-                       intent.putExtra("shelfLife", "9 days");
+                       intent.putExtra("shelfLife", "9 days");*/
                         startActivity(intent);
                         return true;
 
