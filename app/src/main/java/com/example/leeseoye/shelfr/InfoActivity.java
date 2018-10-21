@@ -40,11 +40,50 @@ public class InfoActivity extends AppCompatActivity {
                 getIntent().getStringExtra("freezerLife"),
                 getIntent().getStringExtra("shelfLife"));
 
+        String nam = food.getName();
+        String she = food.getShelfLife();
+        String fri = food.getFridgeLife();
+        String fre = food.getFreezerLife();
+        String str = "";
+        int countA = 0;
+        int countB = 0;
+        int countC = 0;
+
+        if(she.matches(".*\\d+.*")){
+            countA++;
+        }
+        if(fri.matches(".*\\d+.*")){
+            countB++;
+        }
+        if(fre.matches(".*\\d+.*")){
+            countC++;
+        }
+
+        if(she.matches(".*\\d+.*")) {
+            str = str + "Shelf: " + food.getShelfLife();
+            if((countA+countB+countC)>1)
+                str = str + ", ";
+        }
+        if(fri.matches(".*\\d+.*")) {
+            str = str + "Fridge: " + food.getFridgeLife();
+            if(countC==1)
+                str = str + ", ";
+            if((countA+countB+countC)==3)
+                str = str+"\n";
+        }
+        if(fre.matches(".*\\d+.*"))
+            str = str+"Freezer: "+food.getFreezerLife();
+
+
         TextView optimizer = findViewById(R.id.optimums);
         //optimizer.setText(findPurchase());
 
+
         title = getIntent().getStringExtra("name");
         imageView = findViewById(R.id.foodImage);
+
+        optimizer.setText(str);
+
         TextView foodName = findViewById(R.id.name);
         foodName.setText(food.getName());
         loadFoodImage();
@@ -55,6 +94,12 @@ public class InfoActivity extends AppCompatActivity {
         freezer = findViewById(R.id.freezerButton);
         quantity = findViewById(R.id.quantityText);
 
+        if(!(str.contains("Shelf")))
+            shelf.setVisibility(View.GONE);
+        if(!(str.contains("Fridge")))
+            fridge.setVisibility(View.GONE);
+        if(!(str.contains("Freezer")))
+            freezer.setVisibility(View.GONE);
 
         shelf.setOnClickListener(new View.OnClickListener() {
             @Override

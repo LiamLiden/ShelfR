@@ -1,6 +1,6 @@
 package com.example.leeseoye.shelfr;
 
-public class Food {
+public class Food implements Comparable<Food>{
 
     public Food(String n, String fridge, String freeze, String shelf){
         name = n;
@@ -55,6 +55,10 @@ public class Food {
         String str = getName()+", Freezer: "+getFreezerLife()+", Fridge: "+getFridgeLife()+
                 ", Shelf:"+getShelfLife();
         return str;
+    }
+
+    public int compareTo(Food food) {
+        return (this.getName().compareTo(food.getName()));
     }
 
     //private field declarations

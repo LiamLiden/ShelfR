@@ -21,6 +21,8 @@ import java.util.Locale;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
+//DEPRECATED
+
 public class FoodListAdapter extends BaseAdapter{
 
     private Context myContext;

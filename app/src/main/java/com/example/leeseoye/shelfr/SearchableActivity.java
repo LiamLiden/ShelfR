@@ -27,11 +27,12 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.nio.Buffer;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
-public class SearchableActivity extends Activity implements SearchView.OnQueryTextListener{
+public class SearchableActivity extends Activity implements SearchView.OnQueryTextListener {
 
     public static final String NAME_KEY = "name";
     public static final String FREEZER_KEY = "freezerLife";
@@ -66,6 +67,8 @@ public class SearchableActivity extends Activity implements SearchView.OnQueryTe
         //handleIntent(getIntent());
         setContentView(R.layout.activity_searchable);
 
+        //foodArrayList.clear();
+
         try {
 
             SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
@@ -95,6 +98,12 @@ public class SearchableActivity extends Activity implements SearchView.OnQueryTe
             e.printStackTrace();
         }
 
+        Collections.sort(foodArrayList);
+        foodArrayList.remove(0);
+        foodArrayList.remove(0);
+        foodArrayList.remove(0);
+        foodArrayList.remove(0);
+
         list = (ListView) findViewById(R.id.searchList);
 
         adapter = new ListViewAdapter(this);
@@ -106,7 +115,7 @@ public class SearchableActivity extends Activity implements SearchView.OnQueryTe
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(SearchableActivity.this, foodArrayList.get(position).getName(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(SearchableActivity.this, foodArrayList.get(position).getName(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(view.getContext(), InfoActivity.class);
 
                 Food currentFood = foodArrayList.get(position);
@@ -126,7 +135,7 @@ public class SearchableActivity extends Activity implements SearchView.OnQueryTe
     }
 
     @Override
-    public boolean onQueryTextSubmit(String query){
+    public boolean onQueryTextSubmit(String query) {
         return false;
     }
 
@@ -157,38 +166,38 @@ public class SearchableActivity extends Activity implements SearchView.OnQueryTe
         });
     }*/
 
-/*
-    @Override
-    protected void onNewIntent(Intent intent) {
-        setIntent(intent);
-        handleIntent(intent);
-    }
-
-    private void handleIntent (Intent intent){
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            //use the query to search your data somehow
-            search(query);
+    /*
+        @Override
+        protected void onNewIntent(Intent intent) {
+            setIntent(intent);
+            handleIntent(intent);
         }
-    }
 
-    private void search (String query){
-        try {
-            BufferedReader f = new BufferedReader(new InputStreamReader(getAssets().open("food_db.txt")));
-            Scanner s = new Scanner(f);
-            String line;
-            while (s.hasNextLine()) {
-                line = s.nextLine();
-                foodArrayList.add(readFood(line));
+        private void handleIntent (Intent intent){
+            if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+                String query = intent.getStringExtra(SearchManager.QUERY);
+                //use the query to search your data somehow
+                search(query);
             }
         }
-        catch(IOException e){
-                e.printStackTrace();
-            }
 
-    }
-*/
-    private Food readFood(String line){
+        private void search (String query){
+            try {
+                BufferedReader f = new BufferedReader(new InputStreamReader(getAssets().open("food_db.txt")));
+                Scanner s = new Scanner(f);
+                String line;
+                while (s.hasNextLine()) {
+                    line = s.nextLine();
+                    foodArrayList.add(readFood(line));
+                }
+            }
+            catch(IOException e){
+                    e.printStackTrace();
+                }
+
+        }
+    */
+    private Food readFood(String line) {
         System.out.println(line);
         String temp;
         Scanner s = new Scanner(line);
@@ -196,18 +205,18 @@ public class SearchableActivity extends Activity implements SearchView.OnQueryTe
         String shelf = "";
         String fridge = "";
         String freezer = "";
-        if(line.equals("ID:SHELF")) {
+        if (line.equals("ID:SHELF")) {
             shelfID = !shelfID;
-            Food f = new Food("","","","");
+            Food f = new Food("", "", "", "");
             return f;
         }
-        if(line.equals("ID:PURCHASE_FROZEN")) {
+        if (line.equals("ID:PURCHASE_FROZEN")) {
             frozenID = !frozenID;
-            Food f = new Food("","","","");
+            Food f = new Food("", "", "", "");
             return f;
         }
 
-        if(shelfID){
+        if (shelfID) {
 				/* Weird idea to parse the data
             for (char c : arr){
                 if (Character.isDigit(c)) {
@@ -223,8 +232,7 @@ public class SearchableActivity extends Activity implements SearchView.OnQueryTe
                 if (Character.isDigit(temp.charAt(0))) {
                     if (temp.charAt(0) == '0') {
                         shelf = "Do not shelf";
-                    }
-                    else {
+                    } else {
                         shelf = temp + " " + s.next();
                     }
                     fridge = s.next() + " " + s.next();
@@ -242,8 +250,7 @@ public class SearchableActivity extends Activity implements SearchView.OnQueryTe
             }
             Food f = new Food(name, fridge, freezer, shelf);
             return f;
-        }
-        else if(frozenID){
+        } else if (frozenID) {
             while (s.hasNext()) {
                 temp = s.next();
                 if (Character.isDigit(temp.charAt(0))) {
@@ -261,8 +268,7 @@ public class SearchableActivity extends Activity implements SearchView.OnQueryTe
             }
             Food f = new Food(name, fridge, freezer, shelf);
             return f;
-        }
-        else {
+        } else {
             while (s.hasNext()) {
                 temp = s.next();
                 if (Character.isDigit(temp.charAt(0))) {
@@ -283,10 +289,10 @@ public class SearchableActivity extends Activity implements SearchView.OnQueryTe
         }
     }
 
-    protected void onActivityResult (int requestCode, int resultCode, Intent intent) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         Log.d("onAR", "Reached SearchActive");
-        super.onActivityResult(requestCode,resultCode,intent);
-        setResult(resultCode,intent);
+        super.onActivityResult(requestCode, resultCode, intent);
+        setResult(resultCode, intent);
         Log.d("onAR", "Reached here");
         finish();
     }

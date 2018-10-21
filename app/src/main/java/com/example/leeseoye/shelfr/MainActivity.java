@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("main","starting");
 
         Log.d("main", "before create");
         super.onCreate(savedInstanceState);
@@ -81,14 +82,15 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.action_favorite:
-                        // User chose the "Settings" item, show the app settings UI...
-                        myToolBar.setTitle("Change");
-                      //  showAddDialog();
-
-                        return true;
+//                    case R.id.action_favorite:
+//                        // User chose the "Settings" item, show the app settings UI...
+//                        myToolBar.setTitle("Change");
+//                      //  showAddDialog();
+//
+//                        return true;
 
                     case R.id.action_search:
+                        Log.d("main", "going to search");
                         Intent intent = new Intent (MainActivity.this, SearchableActivity.class);
                         startActivityForResult(intent,10);
                         return true;
