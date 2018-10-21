@@ -173,6 +173,7 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
             s.write(temp.getName() + " ");
             s.write(temp.getAmount() + " ");
             s.write(temp.getPlace() + " ");
+            s.write(temp.daysPassed() + "\n");
         }
         catch (IOException e) {
             e.printStackTrace();
