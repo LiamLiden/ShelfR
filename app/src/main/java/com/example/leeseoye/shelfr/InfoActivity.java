@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,9 +23,13 @@ public class InfoActivity extends AppCompatActivity {
     String tempName = "";
     String name = "";
     double sA = 0, rA = 0, fA = 0;
+    String title;
+
+
 
     Button shelf, fridge, freezer;
     EditText quantity;
+    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +42,12 @@ public class InfoActivity extends AppCompatActivity {
 
         TextView optimizer = findViewById(R.id.optimums);
         //optimizer.setText(findPurchase());
+
+        title = getIntent().getStringExtra("name");
+        imageView = findViewById(R.id.foodImage);
         TextView foodName = findViewById(R.id.name);
         foodName.setText(food.getName());
+        loadFoodImage();
 
 
         shelf = findViewById(R.id.shelfButton);
@@ -128,6 +137,33 @@ public class InfoActivity extends AppCompatActivity {
             }
 
         });
+    }
+
+    private void loadFoodImage(){
+
+        String nameI = title.toLowerCase();
+
+        if (nameI.contains("juice"))
+            imageView.setImageResource(R.drawable.juice);
+        else if (nameI.contains("cheese")||nameI.contains("milk")||nameI.contains("cream")
+                ||nameI.contains("parmesan")||nameI.contains("cheddar")||nameI.contains("butter")
+                ||nameI.contains("margarine")||nameI.contains("yogurt"))
+            imageView.setImageResource(R.drawable.dairy);
+        else if (nameI.contains("egg"))
+            imageView.setImageResource(R.drawable.eggs);
+        else if (nameI.contains("fish")||nameI.contains("sea")||nameI.contains("shrimp")||nameI.contains("crab")
+                ||nameI.contains("clam")||nameI.contains("lobster"))
+            imageView.setImageResource(R.drawable.fish);
+        else if (nameI.contains("beef")||nameI.contains("meat")||nameI.contains("pork")||nameI.contains("chicken")
+                ||nameI.contains("bacon")||nameI.contains("ham")||nameI.contains("turkey")||nameI.contains("duckling"))
+            imageView.setImageResource(R.drawable.eggs);
+        else if (nameI.contains("sausage")||nameI.contains("hot dog"))
+            imageView.setImageResource(R.drawable.sausage);
+        else if (nameI.contains("apple")||nameI.contains("banana")||nameI.contains("berries")||nameI.contains("pear"))
+            imageView.setImageResource(R.drawable.fruit);
+        else
+            imageView.setImageResource(R.drawable.food);
+
     }
 
 
