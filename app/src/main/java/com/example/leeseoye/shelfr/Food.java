@@ -24,6 +24,8 @@ public class Food {
 
     public Integer toDays(String life){
 
+        if (life.equals(""))
+            return -1;
         String [] strs = life.split(" ");
         String [] strs2 = strs[0].split("-");
 

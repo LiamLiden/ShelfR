@@ -53,11 +53,10 @@ public class InfoActivity extends AppCompatActivity {
                 intent.putExtra("expiration", food.toDays(food.getShelfLife()));
                 intent.putExtra("food", food.getName());
                 intent.putExtra("quantity", Character.getNumericValue(quantity.getText().toString().charAt(0)));
-
+                intent.putExtra("storage", "S");
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 Log.d("info","please send the intent to main");
                 setResult(RESULT_OK,intent);
-
                 finish();
             }
         });
@@ -68,7 +67,7 @@ public class InfoActivity extends AppCompatActivity {
                 intent.putExtra("expiration", food.toDays(food.getFridgeLife()));
                 intent.putExtra("food", food.getName());
                 intent.putExtra("quantity", Character.getNumericValue(quantity.getText().toString().charAt(0)));
-                intent.putExtra("storage", "fridge");
+                intent.putExtra("storage", "R");
                 setResult(RESULT_OK,intent);
                 finish();
 
@@ -81,8 +80,10 @@ public class InfoActivity extends AppCompatActivity {
                 intent.putExtra("expiration", food.toDays(food.getFreezerLife()));
                 intent.putExtra("food", food.getName());
                 intent.putExtra("quantity", Character.getNumericValue(quantity.getText().toString().charAt(0)));
-                intent.putExtra("storage", "freezer");
-                setResult(RESULT_OK,intent);
+                intent.putExtra("storage", "F");
+
+                setResult(RESULT_OK, intent);
+
                 finish();
             }
         });

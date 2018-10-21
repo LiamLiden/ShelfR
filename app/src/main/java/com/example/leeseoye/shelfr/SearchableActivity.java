@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -26,10 +27,10 @@ import java.util.Scanner;
 
 public class SearchableActivity extends Activity implements SearchView.OnQueryTextListener{
 
-    public static final String NAME_KEY = "com.example.shelfr.name";
-    public static final String FREEZE_KEY = "com.example.shelfr.freeze";
-    public static final String FRIDGE_KEY = "com.example.shelfr.fridge";
-    public static final String SHELF_KEY = "com.example.shelfr.shelf";
+    public static final String NAME_KEY = "name";
+    public static final String FREEZER_KEY = "freezerLife";
+    public static final String FRIDGE_KEY = "fridgeLife";
+    public static final String SHELF_KEY = "shelfLife";
 
     private ListView list;
     private ListViewAdapter adapter;
@@ -89,14 +90,15 @@ public class SearchableActivity extends Activity implements SearchView.OnQueryTe
                 Food currentFood = foodArrayList.get(position);
                 String name = currentFood.getName();
                 String freezerLife = currentFood.getFreezerLife();
+                //System.out.println("FreezerLife: "+freezerLife1);
                 String fridgeLife = currentFood.getFridgeLife();
                 String shelfLife = currentFood.getShelfLife();
 
                 intent.putExtra(NAME_KEY, name);
-                intent.putExtra(FREEZE_KEY, freezerLife);
+                intent.putExtra(FREEZER_KEY, freezerLife);
                 intent.putExtra(FRIDGE_KEY, fridgeLife);
                 intent.putExtra(SHELF_KEY, shelfLife);
-                startActivity(intent);
+                startActivityForResult(intent, 10);
             }
         });
     }
@@ -201,12 +203,12 @@ public class SearchableActivity extends Activity implements SearchView.OnQueryTe
                         shelf = "Do not shelf";
                     }
                     else {
-                        shelf = temp.concat(s.next());
+                        shelf = temp + " " + s.next();
                     }
-                    fridge = s.next().concat(s.next());
-                    freezer = s.next().concat(s.next());
+                    fridge = s.next() + " " + s.next();
+                    freezer = s.next() + " " + s.next();
                     if (s.hasNext()) {
-                        freezer.concat(s.next());
+                        freezer = freezer + " " + s.next();
                     }
                 } else {
                     if (name.equals(""))
@@ -223,10 +225,10 @@ public class SearchableActivity extends Activity implements SearchView.OnQueryTe
             while (s.hasNext()) {
                 temp = s.next();
                 if (Character.isDigit(temp.charAt(0))) {
-                    freezer = temp.concat(s.next());
-                    fridge = s.next().concat(s.next());
+                    freezer = temp + " " + s.next();
+                    fridge = s.next() + " " + s.next();
                     if (s.hasNext())
-                        fridge.concat(s.next());
+                        fridge = fridge + " " + s.next();
                 } else {
                     if (name.equals(""))
                         name = name + temp;
@@ -242,10 +244,10 @@ public class SearchableActivity extends Activity implements SearchView.OnQueryTe
             while (s.hasNext()) {
                 temp = s.next();
                 if (Character.isDigit(temp.charAt(0))) {
-                    fridge = temp.concat(s.next());
-                    freezer = s.next().concat(s.next());
+                    fridge = temp + " " + s.next();
+                    freezer = s.next() + " " + s.next();
                     if (s.hasNext())
-                        freezer.concat(s.next());
+                        freezer = freezer + " " + s.next();
                 } else {
                     if (name.equals(""))
                         name = name + temp;
@@ -258,4 +260,13 @@ public class SearchableActivity extends Activity implements SearchView.OnQueryTe
             return f;
         }
     }
+
+    protected void onActivityResult (int requestCode, int resultCode, Intent intent) {
+        Log.d("onAR", "Reached SearchActive");
+        super.onActivityResult(requestCode,resultCode,intent);
+        setResult(resultCode,intent);
+        Log.d("onAR", "Reached here");
+        finish();
+    }
+
 }
