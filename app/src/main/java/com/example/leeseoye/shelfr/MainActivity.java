@@ -62,21 +62,17 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
         myToolBar.setBackgroundColor(Color.BLUE);
         setSupportActionBar(myToolBar);
 
-        //listView header design
-       /* TextView textHeader = new TextView(this);
-        textHeader.setText(R.string.app_name);
-        textHeader.setTextSize(24);
-        textHeader.setTypeface(null, Typeface.BOLD);*/
-
         registerReceiver(Receiver, new IntentFilter(ACTION_NOTIFICATION));
         createNotificationChannel(this);
 
         ingredientList = new ArrayList<Ingredient>();
         ingredientList.add(new Ingredient("fridge", 10, 1, "Pie", this));
         ingredientList.add(new Ingredient("fridge", 10, 1, "Test2", this));
+        //Testing for notification
+        //ingredientList.add(new)
 
         listView = (ListView) findViewById(R.id.LV);
-        //listView.addHeaderView(textHeader);
+
         myToolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener(){
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -90,7 +86,12 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
                         return true;
 
                     case R.id.action_search:
-                        Intent intent = new Intent (MainActivity.this, SearchableActivity.class);
+                       // Intent intent = new Intent (MainActivity.this, SearchableActivity.class);
+                        Intent intent = new Intent (MainActivity.this, InfoActivity.class);
+                       intent.putExtra("name","Butter");
+                       intent.putExtra("fridgeLife", "1-3 days");
+                       intent.putExtra("freezerLife", "5 days");
+                       intent.putExtra("shelfLife", "9 days");
                         startActivity(intent);
                         return true;
 
@@ -116,11 +117,9 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
             }
         });
 
-
         refresh();
 
     }
-
 
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
@@ -177,6 +176,20 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
             NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+    }
+
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent){
+        if (requestCode == 2){
+            Log.d("onactivity", "if");
+            Bundle bundle = intent.getExtras();
+
+            ingredientList.add( new Ingredient(bundle.getString("storage"), bundle.getInt("expiration")
+                    , bundle.getInt("quantity"), bundle.getString("food"), this));
+            adapter = new CustomAdapter(this, R.layout.activity_listview, ingredientList);
+            listView.setAdapter(adapter);
+        }
+        super.onActivityResult(requestCode,resultCode,intent);
     }
 
     public void onReceive(View view){

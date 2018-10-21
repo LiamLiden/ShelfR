@@ -27,13 +27,18 @@ public class InfoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_info);
+        food = new Food(getIntent().getStringExtra("name"),
+                getIntent().getStringExtra("fridgeLife"),
+                getIntent().getStringExtra("freezerLife"),
+                getIntent().getStringExtra("shelfLife"));
         TextView optimizer = findViewById(R.id.optimums);
-        optimizer.setText(findPurchase());
+        //optimizer.setText(findPurchase());
         TextView foodName = findViewById(R.id.name);
         foodName.setText(food.getName());
-        setContentView(R.layout.activity_info);
 
-        food = new Food(getIntent().getStringExtra("name"), getIntent().getStringExtra("fridgeLife"), getIntent().getStringExtra("freezerLife"), getIntent().getStringExtra("shelfLife"));
+
+
 
         shelf = findViewById(R.id.shelfButton);
         fridge = findViewById(R.id.fridgeButton);
@@ -50,7 +55,9 @@ public class InfoActivity extends AppCompatActivity {
                 intent.putExtra("food", food.getName());
                 intent.putExtra("quantity", Character.getNumericValue(quantity.getText().toString().charAt(0)));
                 intent.putExtra("storage", "shelf");
-                startActivity(intent);
+                setResult(RESULT_OK,intent);
+
+                finish();
             }
         });
         fridge.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +83,7 @@ public class InfoActivity extends AppCompatActivity {
             }
         });
     }
+    /*
 
     public String findPurchase(){
         try {
@@ -113,4 +121,5 @@ public class InfoActivity extends AppCompatActivity {
         }
         return "Shelfed: " + food.toDays(food.getShelfLife())/sA + "Refrigerated: " + food.toDays(food.getFridgeLife())/rA + "Frozen: " + food.toDays(food.getFreezerLife());
     }
+    */
 }
