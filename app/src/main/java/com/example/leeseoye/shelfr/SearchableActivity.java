@@ -5,6 +5,7 @@ import android.app.DownloadManager;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -17,13 +18,18 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 public class SearchableActivity extends Activity implements SearchView.OnQueryTextListener{
 
@@ -35,7 +41,7 @@ public class SearchableActivity extends Activity implements SearchView.OnQueryTe
     private ListView list;
     private ListViewAdapter adapter;
     private SearchView editSearch;
-    public static ArrayList<Food> foodArrayList = new ArrayList<Food>();
+    public static ArrayList<Food> foodArrayList;
 
     boolean shelfID = false;
     boolean frozenID = false;
@@ -61,14 +67,30 @@ public class SearchableActivity extends Activity implements SearchView.OnQueryTe
         setContentView(R.layout.activity_searchable);
 
         try {
-            BufferedReader f = new BufferedReader(new InputStreamReader(getAssets().open("food_db.txt")));
-            Scanner s = new Scanner(f);
-            String line;
-            SearchableActivity searchAc = new SearchableActivity();
-            while (s.hasNextLine()) {
-                line = s.nextLine();
-                foodArrayList.add(searchAc.readFood(line));
+
+            SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+            Gson gson = new Gson();
+            String json = sharedPreferences.getString("task list", null);
+            Type type = new TypeToken<ArrayList<Food>>() {}.getType();
+            foodArrayList = gson.fromJson(json, type);
+            if (foodArrayList == null) {
+                foodArrayList = new ArrayList<Food>();
+                BufferedReader f = new BufferedReader(new InputStreamReader(getAssets().open("food_db.txt")));
+                Scanner s = new Scanner(f);
+                String line;
+                SearchableActivity searchAc = new SearchableActivity();
+                while (s.hasNextLine()) {
+                    line = s.nextLine();
+                    foodArrayList.add(searchAc.readFood(line));
+                }
+                sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                json = gson.toJson(foodArrayList);
+                editor.putString("task list", json);
+                editor.apply();
             }
+            //load
+
         } catch (IOException e) {
             e.printStackTrace();
         }
