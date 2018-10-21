@@ -90,10 +90,8 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
                         return true;
 
                     case R.id.action_search:
-                        //Intent intent = new Intent(MainActivity.this, TestActivity.class);
-                        // startActivity(intent);
-                        // User chose the "Favorite" action, mark the current item
-                        // as a favorite...
+                        Intent intent = new Intent (MainActivity.this, SearchableActivity.class);
+                        startActivity(intent);
                         return true;
 
                     default:
