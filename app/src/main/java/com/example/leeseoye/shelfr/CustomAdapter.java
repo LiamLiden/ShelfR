@@ -31,6 +31,7 @@ public class CustomAdapter extends ArrayAdapter<Ingredient>
         if(listItem == null)
             listItem = LayoutInflater.from(cContext).inflate(R.layout.activity_listview,parent,false);
 
+
         Ingredient currentIngredient = ingredientList.get(position);
 
         TextView name = (TextView) listItem.findViewById(R.id.label);

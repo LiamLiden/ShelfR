@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -35,6 +36,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -72,6 +74,8 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
         //ingredientList.add(new)
 
         listView = (ListView) findViewById(R.id.LV);
+       // ListView LH = (ListView) findViewById(R.id.main_text_box);
+        //LH.setAdapter(new ArrayAdapter<TextView>(this, R.layout.activity_listview, ));
 
         myToolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener(){
             @Override
@@ -80,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
                     case R.id.action_favorite:
                         // User chose the "Settings" item, show the app settings UI...
                         myToolBar.setTitle("Change");
-                        showAddDialog();
+                      //  showAddDialog();
 
                         return true;
 
@@ -100,12 +104,10 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Ingredient currentEvent = ingredientList.get(i);
-                if(i ==0){
-                }
-                else if(i == 1){
-                }
-                myToolBar.setTitle(currentEvent.getName());
+
+                index = i;
+                showAddDialog();
+
             }
         });
 
@@ -139,12 +141,21 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
     public void onDialogPositiveClick() {
 
         ingredientList.get(index).reduceAmount();
+        if(ingredientList.get(index).getAmount() <= 0) {
+            onDialogNeutralClick();
+            Toast.makeText(this, "Deleted " + ingredientList.get(index).getName(), Toast.LENGTH_SHORT).show();
+        }
         refresh();
     }
 
     @Override
     public void onDialogNeutralClick(){
+
+        Toast.makeText(this, "Deleted " + ingredientList.get(index).getName(), Toast.LENGTH_SHORT).show();
         Ingredient temp = ingredientList.remove(index);
+
+
+
         try {
             BufferedWriter s = new BufferedWriter(new FileWriter("history_log.txt"));
             s.write(temp.getName() + " ");
