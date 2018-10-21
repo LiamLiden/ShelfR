@@ -21,7 +21,7 @@
         android:orientation="vertical"
         android:layout_marginTop="56dp"
         tools:context = ".MainActivity"
-
+        android:focusable="false"
         android:divider="@null"
         >
 

@@ -7,6 +7,12 @@ public class Food {
         fridgeLife = fridge;
         freezerLife = freeze;
         shelfLife = shelf;
+        if(freeze.equals("Do not freeze")){
+            freezerLife = "";
+        }
+        if(fridge.equals("Do not refrigerate")){
+            fridgeLife = "";
+        }
     }
 
     public String getName(){

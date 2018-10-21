@@ -35,6 +35,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -72,6 +73,8 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
         //ingredientList.add(new)
 
         listView = (ListView) findViewById(R.id.LV);
+       // ListView LH = (ListView) findViewById(R.id.main_text_box);
+        //LH.setAdapter(new ArrayAdapter<TextView>(this, R.layout.activity_listview, ));
 
         myToolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener(){
             @Override
@@ -81,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
                     case R.id.action_favorite:
                         // User chose the "Settings" item, show the app settings UI...
                         myToolBar.setTitle("Change");
-                        showAddDialog();
+                      //  showAddDialog();
 
                         return true;
 
@@ -106,14 +109,9 @@ public class MainActivity extends AppCompatActivity implements AddDialog.NoticeD
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Ingredient currentEvent = ingredientList.get(i);
-                if(i ==0){
-                    //myToolBar.setBackgroundColor(Color.YELLOW);
-                }
-                else if(i == 1){
-                    //myToolBar.setBackgroundColor(Color.GREEN);
-                }
-                myToolBar.setTitle(currentEvent.getName());
+                index = i;
+                showAddDialog();
+
             }
         });
 
