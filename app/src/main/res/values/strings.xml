@@ -3,4 +3,7 @@
     <string name="channel_name">ShelfR</string>
     <string name="app_label">ShelfR</string>
     <string name="search_hint">Enter Food Here</string>
+    <string name="action_favorite"></string>
+    <string name="action_search"></string>
+    <string name="cancel"></string>
 </resources>
