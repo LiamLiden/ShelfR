@@ -81,9 +81,7 @@ public class InfoActivity extends AppCompatActivity {
                 intent.putExtra("food", food.getName());
                 intent.putExtra("quantity", Character.getNumericValue(quantity.getText().toString().charAt(0)));
                 intent.putExtra("storage", "F");
-
                 setResult(RESULT_OK, intent);
-
                 finish();
             }
         });
